@@ -96,8 +96,8 @@ async def ban_command(ctx, member: discord.Member, reason: str = "無し", delet
     banEmbed.set_footer(text=ctx.guild.name)
 
     if not member.id in user_karma_list:
-        user_karama_list[member.id] = 0
-    user_karama_list[member.id] -= 1
+        user_karma_list[member.id] = 0
+    user_karma_list[member.id] -= 1
     await member.ban(reason=reason,delete_message_days=deleteMessageDays)
     await ctx.send(embed=banEmbed)
 
@@ -151,8 +151,8 @@ class removeMember(app_commands.Group):
         banEmbed.set_footer(text=interaction.guild.name)
 
         if not member.id in user_karma_list:
-            user_karama_list[member.id] = 0
-        user_karama_list[member.id] -= 1
+            user_karma_list[member.id] = 0
+        user_karma_list[member.id] -= 1
         
         await member.ban(reason=reason,delete_message_days=days)
         await interaction.response.send_message(embed=banEmbed)
