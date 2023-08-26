@@ -24,7 +24,7 @@ def save_user_karma(content,file_path="./user_karma_list.json"):
         json.dump(content,file)#dump = dict to fileobj #loads = dict to string
     
 #load user karma
-user_karma_list = load_global_bot()
+user_karma_list = load_user_karma()
 
 #on ready
 @bot.event
