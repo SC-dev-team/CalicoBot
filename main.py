@@ -193,6 +193,6 @@ async def on_guild_remove(guidl: discord.Guild):
 bot.tree.add_command(removeMember("member"))
 try:
     bot.run(Token)
-except:
+finally:
     save_user_karma(user_karma_list)
 
