@@ -1,3 +1,6 @@
+import os
+import json # due to load user karma
+
 import discord
 from discord.ext import commands
 from discord import app_commands
@@ -6,6 +9,22 @@ from datetime import datetime
 bot = commands.Bot(command_prefix=commands.when_mentioned_or("mod!"),intents=discord.Intents.all(),activity=discord.Game(name="mod!help"))
 bot.remove_command("help")
 Token = "MTE0NDA4NDA1MDg0NDMxOTgwNA.GC7XB_.nbcgqM26gGtk8NgJvK8oQt8q3mc47GnLwpgCrI"
+
+
+def load_user_karma(file_path="./user_karma_list.json"):
+    if os.path.isfile(file_path):
+        with open(file_path,"r") as file:
+            user_karma_list = json.load(file)#load = fileobj to dict #loads = string to dict
+        return user_karma_list
+    else:
+        return dict()
+
+def save_user_karma(content,file_path="./user_karma_list.json"):
+    with open(file_path,"w+") as file:
+        json.dump(content,file)#dump = dict to fileobj #loads = dict to string
+    
+#load user karma
+user_karma_list = load_global_bot()
 
 #on ready
 @bot.event
@@ -25,6 +44,7 @@ async def help_command(ctx):
     helpEmbed.add_field(name="",value="prefix `mod!`",inline=False)
     helpEmbed.add_field(name="",value="`help` 今表示されてるやつを表示します",inline=False)
     helpEmbed.add_field(name="",value="`ban` メンバーをBANします",inline=False)
+    helpEmbed.add_field(name="",value="`gban` メンバーをグローバルBANします",inline=False)
     helpEmbed.add_field(name="",value="`kick` メンバーをキックします",inline=False)
     helpEmbed.add_field(name="",value="`unban` メンバーをunBANします",inline=False)
     helpEmbed.add_field(name="",value="prefix `/`",inline=False)
@@ -41,6 +61,7 @@ async def help_tree_command(interaction: discord.Interaction):
     helpEmbed.add_field(name="",value="prefix `mod!`",inline=False)
     helpEmbed.add_field(name="",value="`help` 今表示されてるやつを表示します",inline=False)
     helpEmbed.add_field(name="",value="`ban` メンバーをBANします",inline=False)
+    helpEmbed.add_field(name="",value="`gban` メンバーをグローバルBANします",inline=False)
     helpEmbed.add_field(name="",value="`kick` メンバーをキックします",inline=False)
     helpEmbed.add_field(name="",value="`unban` メンバーをunBANします",inline=False)
     helpEmbed.add_field(name="",value="prefix `/`",inline=False)
@@ -63,6 +84,21 @@ async def ban_command(ctx, member: discord.Member, reason: str = "無し", delet
 
     await member.ban(reason=reason,delete_message_days=deleteMessageDays)
     await ctx.send(embed=banEmbed)
+
+@bot.command(name="gban")
+@commands.has_permissions(ban_members=True)
+async def ban_command(ctx, member: discord.Member, reason: str = "無し", deleteMessageDays: int = 0):
+    banEmbed = discord.Embed(title=f"{member.display_name}をグローバルBANしました",color=discord.Color.red(),timestamp=datetime.now())
+    banEmbed.add_field(name="担当者",value=ctx.author.mention)
+    banEmbed.add_field(name="理由",value=f"`{reason}`")
+    banEmbed.set_footer(text=ctx.guild.name)
+
+    if not member.id in user_karma_list:
+        user_karama_list[member.id] = 0
+    user_karama_list[member.id] -= 1
+    await member.ban(reason=reason,delete_message_days=deleteMessageDays)
+    await ctx.send(embed=banEmbed)
+
 
 @bot.command(name="kick")
 @commands.has_permissions(kick_members=True)
@@ -103,6 +139,23 @@ class removeMember(app_commands.Group):
         await member.ban(reason=reason,delete_message_days=days)
         await interaction.response.send_message(embed=banEmbed)
 
+    @app_commands.command(description="指定したメンバーをグローバルBANします")
+    @app_commands.checks.has_permissions(ban_members=True)
+    @app_commands.describe(days="BANしたユーザーのメッセージ削除の期間")
+    async def gban(self, interaction: discord.Interaction, member: discord.Member, reason: str = "無し", days: int = 0):
+        banEmbed = discord.Embed(title=f"{member.display_name}をBANしました",color=discord.Color.red(),timestamp=datetime.now())
+        banEmbed.add_field(name="担当者",value=interaction.user.mention)
+        banEmbed.add_field(name="理由",value=f"`{reason}`")
+        banEmbed.set_footer(text=interaction.guild.name)
+
+        if not member.id in user_karma_list:
+            user_karama_list[member.id] = 0
+        user_karama_list[member.id] -= 1
+        
+        await member.ban(reason=reason,delete_message_days=days)
+        await interaction.response.send_message(embed=banEmbed)
+
+
     @app_commands.command(description="指定したメンバーをKICKします")
     @app_commands.checks.has_permissions(kick_members=True)
     async def kick(self, interaction: discord.Interaction, member: discord.Member, reason: str = "無し"):
@@ -136,4 +189,8 @@ async def on_guild_remove(guidl: discord.Guild):
     await bot.change_presence(status=discord.Status.online,activity=discord.Game(name=f"mod!help | {len(bot.guilds)} server"))
 
 bot.tree.add_command(removeMember("member"))
-bot.run(Token)
+try:
+    bot.run(Token)
+except:
+    save_user_karma(user_karma_list)
+
