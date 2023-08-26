@@ -25,6 +25,7 @@ async def help_command(ctx):
     helpEmbed.add_field(name="",value="prefix `mod!`",inline=False)
     helpEmbed.add_field(name="",value="`help` 今表示されてるやつを表示します",inline=False)
     helpEmbed.add_field(name="",value="`ban` メンバーをBANします",inline=False)
+    helpEmbed.add_field(name="",value="`gban` メンバーをグローバルBANします",inline=False)
     helpEmbed.add_field(name="",value="`kick` メンバーをキックします",inline=False)
     helpEmbed.add_field(name="",value="`unban` メンバーをunBANします",inline=False)
     helpEmbed.add_field(name="",value="prefix `/`",inline=False)
@@ -41,6 +42,7 @@ async def help_tree_command(interaction: discord.Interaction):
     helpEmbed.add_field(name="",value="prefix `mod!`",inline=False)
     helpEmbed.add_field(name="",value="`help` 今表示されてるやつを表示します",inline=False)
     helpEmbed.add_field(name="",value="`ban` メンバーをBANします",inline=False)
+    helpEmbed.add_field(name="",value="`gban` メンバーをグローバルBANします",inline=False)
     helpEmbed.add_field(name="",value="`kick` メンバーをキックします",inline=False)
     helpEmbed.add_field(name="",value="`unban` メンバーをunBANします",inline=False)
     helpEmbed.add_field(name="",value="prefix `/`",inline=False)
@@ -63,6 +65,18 @@ async def ban_command(ctx, member: discord.Member, reason: str = "無し", delet
 
     await member.ban(reason=reason,delete_message_days=deleteMessageDays)
     await ctx.send(embed=banEmbed)
+
+@bot.command(name="gban")
+@commands.has_permissions(ban_members=True)
+async def ban_command(ctx, member: discord.Member, reason: str = "無し", deleteMessageDays: int = 0):
+    banEmbed = discord.Embed(title=f"{member.display_name}をグローバルBANしました",color=discord.Color.red(),timestamp=datetime.now())
+    banEmbed.add_field(name="担当者",value=ctx.author.mention)
+    banEmbed.add_field(name="理由",value=f"`{reason}`")
+    banEmbed.set_footer(text=ctx.guild.name)
+
+    await member.ban(reason=reason,delete_message_days=deleteMessageDays)
+    await ctx.send(embed=banEmbed)
+
 
 @bot.command(name="kick")
 @commands.has_permissions(kick_members=True)
@@ -102,6 +116,19 @@ class removeMember(app_commands.Group):
 
         await member.ban(reason=reason,delete_message_days=days)
         await interaction.response.send_message(embed=banEmbed)
+
+    @app_commands.command(description="指定したメンバーをグローバルBANします")
+    @app_commands.checks.has_permissions(ban_members=True)
+    @app_commands.describe(days="BANしたユーザーのメッセージ削除の期間")
+    async def gban(self, interaction: discord.Interaction, member: discord.Member, reason: str = "無し", days: int = 0):
+        banEmbed = discord.Embed(title=f"{member.display_name}をBANしました",color=discord.Color.red(),timestamp=datetime.now())
+        banEmbed.add_field(name="担当者",value=interaction.user.mention)
+        banEmbed.add_field(name="理由",value=f"`{reason}`")
+        banEmbed.set_footer(text=interaction.guild.name)
+
+        await member.ban(reason=reason,delete_message_days=days)
+        await interaction.response.send_message(embed=banEmbed)
+
 
     @app_commands.command(description="指定したメンバーをKICKします")
     @app_commands.checks.has_permissions(kick_members=True)
