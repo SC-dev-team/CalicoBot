@@ -2,10 +2,24 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 from datetime import datetime
+import json # due to load user karma
 
 bot = commands.Bot(command_prefix=commands.when_mentioned_or("mod!"),intents=discord.Intents.all(),activity=discord.Game(name="mod!help"))
 bot.remove_command("help")
 Token = "MTE0NDA4NDA1MDg0NDMxOTgwNA.GC7XB_.nbcgqM26gGtk8NgJvK8oQt8q3mc47GnLwpgCrI"
+
+
+def load_user_karma(file_path="./user_karma_list.json"):
+    with open(file_path,"r+") as file:
+        user_karma_list = json.load(file)#load = fileobj to dict #loads = string to dict
+    return user_karma_list
+
+def save_user_karma(content,file_path="./user_karma_list.json"):
+    with open(file_path,"w+") as file:
+        json.dump(content,file)#dump = dict to fileobj #loads = dict to string
+    
+#load user karma
+user_karma_list = load_global_bot()
 
 #on ready
 @bot.event
@@ -163,4 +177,8 @@ async def on_guild_remove(guidl: discord.Guild):
     await bot.change_presence(status=discord.Status.online,activity=discord.Game(name=f"mod!help | {len(bot.guilds)} server"))
 
 bot.tree.add_command(removeMember("member"))
-bot.run(Token)
+try:
+    bot.run(Token)
+except:
+    save_user_karma(user_karma_list)
+
