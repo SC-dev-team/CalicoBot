@@ -1,8 +1,10 @@
+import os
+import json # due to load user karma
+
 import discord
 from discord.ext import commands
 from discord import app_commands
 from datetime import datetime
-import json # due to load user karma
 
 bot = commands.Bot(command_prefix=commands.when_mentioned_or("mod!"),intents=discord.Intents.all(),activity=discord.Game(name="mod!help"))
 bot.remove_command("help")
@@ -10,9 +12,12 @@ Token = "MTE0NDA4NDA1MDg0NDMxOTgwNA.GC7XB_.nbcgqM26gGtk8NgJvK8oQt8q3mc47GnLwpgCr
 
 
 def load_user_karma(file_path="./user_karma_list.json"):
-    with open(file_path,"r+") as file:
-        user_karma_list = json.load(file)#load = fileobj to dict #loads = string to dict
-    return user_karma_list
+    if os.path.isfile(file_path):
+        with open(file_path,"r") as file:
+            user_karma_list = json.load(file)#load = fileobj to dict #loads = string to dict
+        return user_karma_list
+    else:
+        return dict()
 
 def save_user_karma(content,file_path="./user_karma_list.json"):
     with open(file_path,"w+") as file:
@@ -88,6 +93,9 @@ async def ban_command(ctx, member: discord.Member, reason: str = "無し", delet
     banEmbed.add_field(name="理由",value=f"`{reason}`")
     banEmbed.set_footer(text=ctx.guild.name)
 
+    if not member.id in user_karma_list:
+        user_karama_list[member.id] = 0
+    user_karama_list[member.id] -= 1
     await member.ban(reason=reason,delete_message_days=deleteMessageDays)
     await ctx.send(embed=banEmbed)
 
@@ -140,6 +148,10 @@ class removeMember(app_commands.Group):
         banEmbed.add_field(name="理由",value=f"`{reason}`")
         banEmbed.set_footer(text=interaction.guild.name)
 
+        if not member.id in user_karma_list:
+            user_karama_list[member.id] = 0
+        user_karama_list[member.id] -= 1
+        
         await member.ban(reason=reason,delete_message_days=days)
         await interaction.response.send_message(embed=banEmbed)
 
