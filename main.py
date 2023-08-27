@@ -69,12 +69,12 @@ async def on_ready():
             "Don't have permission in some server. Couldn't sync command in some server...")
     except discord.HTTPException:
         print("HTTPException. Please restart later...")
-    except discord.TranslationError:
+    except discord.app_commands.TranslationError:
         print("TranslationError. Please restart later...")
-    except discord.MissingApplicationID:
+    except discord.app_commands.MissingApplicationID:
         print("Missing ApplicationID. Exiting...")
         raise
-    except discord.CommandSyncFailure:
+    except discord.app_commands.CommandSyncFailure:
         print("Some commands worng . Exiting...")
         raise
 
