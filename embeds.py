@@ -1,48 +1,47 @@
 """Embeds
 Create our embeds
 """
-import discord
 from datetime import datetime
-
+import discord
 
 def gen_help(name):
     """Genereate help embed
 
     Returns:
-        helpEmbed: insert your response
+        HelpEmbed: insert your response
     """    
-    helpEmbed = discord.Embed(
+    HelpEmbed = discord.Embed(
         title="CalicoBot Help", color=discord.Color.green(), timestamp=datetime.now())
-    helpEmbed.add_field(name="", value="prefix `mod!`", inline=False)
-    helpEmbed.add_field(name="", value="`help` 今表示されてるやつを表示します", inline=False)
-    helpEmbed.add_field(name="", value="`ban` メンバーをBANします", inline=False)
-    helpEmbed.add_field(name="", value="`gban` メンバーをグローバルBANします", inline=False)
-    helpEmbed.add_field(name="", value="`kick` メンバーをキックします", inline=False)
-    helpEmbed.add_field(name="", value="`unban` メンバーをunBANします", inline=False)
-    helpEmbed.add_field(name="", value="prefix `/`", inline=False)
-    helpEmbed.add_field(
+    HelpEmbed.add_field(name="", value="prefix `mod!`", inline=False)
+    HelpEmbed.add_field(name="", value="`help` 今表示されてるやつを表示します", inline=False)
+    HelpEmbed.add_field(name="", value="`ban` メンバーをBANします", inline=False)
+    HelpEmbed.add_field(name="", value="`gban` メンバーをグローバルBANします", inline=False)
+    HelpEmbed.add_field(name="", value="`kick` メンバーをキックします", inline=False)
+    HelpEmbed.add_field(name="", value="`unban` メンバーをunBANします", inline=False)
+    HelpEmbed.add_field(name="", value="prefix `/`", inline=False)
+    HelpEmbed.add_field(
         name="", value="`member ban` メンバーをBANします", inline=False)
-    helpEmbed.add_field(
+    HelpEmbed.add_field(
         name="", value="`member gban` メンバーをグローバルBANします", inline=False)
-    helpEmbed.add_field(
+    HelpEmbed.add_field(
         name="", value="`member kick` メンバーをキックします", inline=False)
-    helpEmbed.add_field(
+    HelpEmbed.add_field(
         name="", value="`member unban` メンバーをunBANします", inline=False)
-    helpEmbed.set_footer(name)
+    HelpEmbed.set_footer(name)
 
-    return helpEmbed
+    return HelpEmbed
 
 
 def gen_managelog(target, executer, method, reason, name):
     """Generate log embed
 
     Returns:
-        logEmbed: insert your response
+        LogEmbed: insert your response
     """
-    logEmbed = discord.Embed(
+    LogEmbed = discord.Embed(
         title=f"{target}を{method}しました", color=discord.Color.red(), timestamp=datetime.now())
-    logEmbed.add_field(name="担当者", value=executer)
-    logEmbed.add_field(name="理由", value=f"`{reason}`")
-    logEmbed.set_footer(text=name)
+    LogEmbed.add_field(name="担当者", value=executer)
+    LogEmbed.add_field(name="理由", value=f"`{reason}`")
+    LogEmbed.set_footer(text=name)
 
-    return logEmbed
+    return LogEmbed
