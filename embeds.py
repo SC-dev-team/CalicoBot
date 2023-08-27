@@ -1,8 +1,16 @@
+"""Embeds
+Create our embeds
+"""
 import discord
 from datetime import datetime
 
 
-def help(name):
+def gen_help(name):
+    """Genereate help embed
+
+    Returns:
+        helpEmbed: insert your response
+    """    
     helpEmbed = discord.Embed(
         title="CalicoBot Help", color=discord.Color.green(), timestamp=datetime.now())
     helpEmbed.add_field(name="", value="prefix `mod!`", inline=False)
@@ -25,7 +33,12 @@ def help(name):
     return helpEmbed
 
 
-def managelog(target, executer, method, reason, name):
+def gen_managelog(target, executer, method, reason, name):
+    """Generate log embed
+
+    Returns:
+        logEmbed: insert your response
+    """
     logEmbed = discord.Embed(
         title=f"{target}を{method}しました", color=discord.Color.red(), timestamp=datetime.now())
     logEmbed.add_field(name="担当者", value=executer)
