@@ -64,11 +64,6 @@ async def on_ready():
     try:
         synced = await bot.tree.sync()
         print(f"{len(synced)}個のコマンドを同期しました")
-    except discord.Forbidden:
-        print(
-            "Don't have permission in some server. Couldn't sync command in some server...")
-    except discord.HTTPException:
-        print("HTTPException. Please restart later...")
     except discord.app_commands.TranslationError:
         print("TranslationError. Please restart later...")
     except discord.app_commands.MissingApplicationID:
@@ -77,6 +72,11 @@ async def on_ready():
     except discord.app_commands.CommandSyncFailure:
         print("Some commands worng . Exiting...")
         raise
+    except discord.Forbidden:
+        print(
+            "Don't have permission in some server. Couldn't sync command in some server...")
+    except discord.HTTPException:
+        print("HTTPException. Please restart later...")
 
 # help command
 

@@ -27,7 +27,7 @@ def gen_help(name):
         name="", value="`member kick` メンバーをキックします", inline=False)
     help_embed.add_field(
         name="", value="`member unban` メンバーをunBANします", inline=False)
-    help_embed.set_footer(name)
+    help_embed.set_footer(text=name)
 
     return help_embed
 
