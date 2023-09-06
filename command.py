@@ -1,14 +1,18 @@
-import discord
+"""
+Implementing CalicoBot commands
+"""
 import datetime
-from discord.ext import commands
-from discord import app_commands
 import time
 import embeds
-import main
+import discord
+from discord.ext import commands
+from discord import app_commands
+
+user_karma_list=list()
+def command_init(main_list):
+    user_karma_list = main_list
 
 bot=commands.Bot(command_prefix="t?",intents=discord.Intents.all())
-
-user_karma_list = main.user_karma_list
 
 class MemberCommands(app_commands.Group):
     """MemberCommands Class
@@ -20,21 +24,24 @@ class MemberCommands(app_commands.Group):
         super().__init__(name=name)
     @app_commands.command(description="サーバーの情報を表示します")
     async def serverinfo(self, interaction: discord.Interaction):
+        """
+        A command to show server infomation
+        """
         guild=interaction.guild
-        guildOnlineMember=0
-        for onlineMember in guild.members:
-            if onlineMember.status == discord.Status.online:
-                guildOnlineMember + 1
+        guild_online_member=0
+        for online_member in guild.members:
+            if online_member.status == discord.Status.online:
+                guild_online_member + 1
 
-        roleList=[]
+        role_list=[]
         for role in guild.roles:
-            roleList.append(role.mention)
-        rlb=" | ".join(roleList)
+            role_list.append(role.mention)
+        rlb=" | ".join(role_list)
         embed=discord.Embed(title=f"{guild.name} - Info",color=discord.Color.blue(),timestamp=datetime.datetime.now())
         embed.add_field(name="作成日",value=f"<t:{int(time.mktime(guild.created_at.timetuple()))}:R>")
         embed.add_field(name="サーバーID",value=f"{guild.id}")
         embed.add_field(name="所有者",value=guild.owner.mention)
-        embed.add_field(name=f"メンバー数({guild.member_count})",value=f"**{str(guildOnlineMember)}** オンライン\n**{guild.premium_subscription_count}** ブースター")
+        embed.add_field(name=f"メンバー数({guild.member_count})",value=f"**{str(guild_online_member)}** オンライン\n**{guild.premium_subscription_count}** ブースター")
         embed.add_field(name=f"チャンネル数({len(guild.channels)})",value=f"**{len(guild.text_channels)}** テキストチャンネル\n**{len(guild.voice_channels)}** ボイスチャンネル")
         embed.add_field(name=f"ロール({len(guild.roles)})",value="".join([rlb]),inline=False)
         embed.set_author(icon_url=interaction.user.avatar.url,name=interaction.user.global_name)
@@ -45,14 +52,17 @@ class MemberCommands(app_commands.Group):
     @app_commands.command(description="指定したユーザーの情報を表示します")
     @app_commands.describe(user="情報を表示したいユーザーを指定します")
     async def info(self, interaction: discord.Interaction, user: discord.Member = None):
+        """
+        A command to show information of a specified user
+        """
         guild=interaction.guild
 
-        if user == None:
-            roleList=[]
+        if user is None:
+            role_list=[]
             for role in interaction.user.roles:
                 if role.name != "@everyone":
-                    roleList.append(role.mention)
-            rlb=" | ".join(roleList)
+                    role_list.append(role.mention)
+            rlb=" | ".join(role_list)
             embed=discord.Embed(title=f"{interaction.user.name} - Info",color=discord.Color.blue(),timestamp=datetime.datetime.now())
             embed.add_field(name="アカウント作成日",value=f"<t:{int(time.mktime(interaction.user.created_at.timetuple()))}:R> | <t:{int(time.mktime(interaction.user.created_at.timetuple()))}:D>")
             embed.add_field(name="アカウント参加日",value=f"<t:{int(time.mktime(interaction.user.joined_at.timetuple()))}:R> | <t:{int(time.mktime(interaction.user.joined_at.timetuple()))}:D>")
@@ -66,11 +76,11 @@ class MemberCommands(app_commands.Group):
             await interaction.response.send_message(embed=embed)
 
         else:
-            roleList=[]
+            role_list=[]
             for role in user.roles:
                 if role.name != "@everyone":
-                    roleList.append(role.mention)
-            rlb=" | ".join(roleList)
+                    role_list.append(role.mention)
+            rlb=" | ".join(role_list)
             embed=discord.Embed(title=f"{user.name} - Info",color=discord.Color.blue(),timestamp=datetime.datetime.now())
             embed.add_field(name="アカウント作成日",value=f"<t:{int(time.mktime(user.created_at.timetuple()))}:R> | <t:{int(time.mktime(user.created_at.timetuple()))}:D>")
             embed.add_field(name="アカウント参加日",value=f"<t:{int(time.mktime(user.joined_at.timetuple()))}:R> | <t:{int(time.mktime(user.joined_at.timetuple()))}:D>")
@@ -181,7 +191,7 @@ class ModCommands(app_commands.Group):
                                                                            interaction.guild.name
                                                                            ))
 
-class logChannelSelect(app_commands.Group):
+class log_channel_select(app_commands.Group):
     """logChannelSelect Class
 
         Its function will be registered when bot will start
@@ -193,14 +203,20 @@ class logChannelSelect(app_commands.Group):
     @app_commands.checks.has_permissions(administrator=True)
     @app_commands.describe(channel="ログを取るチャンネル")
     async def channelselect(self, interaction: discord.Interaction, channel: discord.TextChannel):
-        botIcon=await bot.user.avatar.read()
-        webhook=await channel.create_webhook(name="CalicobotLog",avatar=botIcon,reason="to get logs")
+        """
+        A command to set up log channel
+        """
+        bot_icon=await bot.user.avatar.read()
+        webhook=await channel.create_webhook(name="CalicobotLog",avatar=bot_icon,reason="to get logs")
         await interaction.response.send_message(f":white_check_mark:`{webhook.name}`を作成しました!")
 
     @app_commands.command(description="ログを取っているチャンネルでログを取れなくします")
     @app_commands.checks.has_permissions(administrator=True)
     @app_commands.describe(channel="ログを取っているチャンネル")
     async def channeldelete(self, interaction: discord.Interaction, channel: discord.TextChannel):
+        """
+        A command to delete exist log channel
+        """
         webhooks=await channel.webhooks()
         for webhook in webhooks:
             if webhook.name == "CalicobotLog":

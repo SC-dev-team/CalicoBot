@@ -5,7 +5,6 @@ import json  # due to load user karma
 
 import discord
 from discord.ext import commands
-from discord import app_commands
 
 import embeds
 import command
@@ -50,6 +49,7 @@ def save_user_karma(content, file_path="./user_karma_list.json"):
 
 # load user karma
 user_karma_list = load_user_karma()
+command.command_init(user_karma_list)
 
 # on ready
 
