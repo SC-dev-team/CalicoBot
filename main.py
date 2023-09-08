@@ -10,7 +10,9 @@ import embeds
 import command
 import event
 
-bot = commands.Bot(command_prefix=commands.when_mentioned_or("mod!"), intents=discord.Intents.all(), activity=discord.Game(name="mod!help"))
+bot = commands.Bot(command_prefix=commands.when_mentioned_or("mod!"),
+                    intents=discord.Intents.all(), 
+                    activity=discord.Game(name="mod!help"))
 bot.remove_command("help")
 Token = os.environ['DISCORD_BOT_TOKEN']  # Load Bot Token
 
@@ -51,7 +53,7 @@ user_karma_list = load_user_karma()
 command.command_init(user_karma_list)
 
 event.event_init(bot)
-command.command_init(bot)
+command.command_bot_init(bot)
 
 # on ready
 
@@ -165,7 +167,7 @@ async def unban_command(ctx, member: discord.User, reason: str = "無し"):
                                               ctx.guild.name))
 
 event.BotEvents()
-bot.tree.add_command(command.log_channel_select("log"))
+bot.tree.add_command(command.logChannelSelect("log"))
 bot.tree.add_command(command.ModCommands("mod"))
 bot.tree.add_command(command.MemberCommands("member"))
 try:

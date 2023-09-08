@@ -9,7 +9,7 @@ from discord import app_commands
 import embeds
 
 BOT = None
-def command_init(main_bot):
+def command_bot_init(main_bot):
     """
     A function to initialize command module
     Args:
