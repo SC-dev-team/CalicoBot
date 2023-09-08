@@ -21,7 +21,7 @@ def load_user_karma(file_path="./user_karma_list.json"):
     """load user karma form path to json file
 
     Args:
-        file_path (str, optional): Please set to path of json file. 
+        file_path (str, optional): Please set to path of json file.
         Defaults to "./user_karma_list.json".
 
     Returns:
@@ -40,7 +40,7 @@ def save_user_karma(content, file_path="./user_karma_list.json"):
 
     Args:
         content (dict): users' karma list
-        file_path (str, optional): Please set to path of json file. 
+        file_path (str, optional): Please set to path of json file.
         Defaults to "./user_karma_list.json".
     """
     with open(file_path, "w+", encoding="utf-8") as file:
@@ -167,7 +167,7 @@ async def unban_command(ctx, member: discord.User, reason: str = "無し"):
                                               ctx.guild.name))
 
 event.BotEvents()
-bot.tree.add_command(command.logChannelSelect("log"))
+bot.tree.add_command(command.LogChannelSelect("log"))
 bot.tree.add_command(command.ModCommands("mod"))
 bot.tree.add_command(command.MemberCommands("member"))
 try:

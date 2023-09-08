@@ -50,7 +50,8 @@ class MemberCommands(app_commands.Group):
         for role in guild.roles:
             role_list.append(role.mention)
         rlb=" | ".join(role_list)
-        embed=discord.Embed(title=f"{guild.name} - Info",color=discord.Color.blue(),timestamp=datetime.datetime.now())
+        embed=discord.Embed(title=f"{guild.name} - Info",color=discord.Color.blue(),
+                            timestamp=datetime.datetime.now())
         embed.add_field(name="作成日",value=f"<t:{int(time.mktime(guild.created_at.timetuple()))}:R>")
         embed.add_field(name="サーバーID",value=f"{guild.id}")
         embed.add_field(name="所有者",value=guild.owner.mention)
@@ -76,12 +77,14 @@ class MemberCommands(app_commands.Group):
                 if role.name != "@everyone":
                     role_list.append(role.mention)
             rlb=" | ".join(role_list)
-            embed=discord.Embed(title=f"{interaction.user.name} - Info",color=discord.Color.blue(),timestamp=datetime.datetime.now())
+            embed=discord.Embed(title=f"{interaction.user.name} - Info",color=discord.Color.blue(),
+                                timestamp=datetime.datetime.now())
             embed.add_field(name="アカウント作成日",value=f"<t:{int(time.mktime(interaction.user.created_at.timetuple()))}:R> | <t:{int(time.mktime(interaction.user.created_at.timetuple()))}:D>")
             embed.add_field(name="アカウント参加日",value=f"<t:{int(time.mktime(interaction.user.joined_at.timetuple()))}:R> | <t:{int(time.mktime(interaction.user.joined_at.timetuple()))}:D>")
             embed.add_field(name="ユーザーID",value=interaction.user.id,inline=False)
             embed.add_field(name="アイコンURL",value=f"[ユーザーアバター URL]({interaction.user.avatar.url})")
-            embed.add_field(name=f"ロール({len(interaction.user.roles)})",value="".join([rlb]),inline=False)
+            embed.add_field(name=f"ロール({len(interaction.user.roles)})",
+                            value="".join([rlb]),inline=False)
             embed.set_author(icon_url=interaction.user.avatar.url,name=interaction.user.global_name)
             embed.set_footer(text=guild.name)
             embed.set_thumbnail(url=interaction.user.avatar.url)
@@ -94,8 +97,10 @@ class MemberCommands(app_commands.Group):
                 if role.name != "@everyone":
                     role_list.append(role.mention)
             rlb=" | ".join(role_list)
-            embed=discord.Embed(title=f"{user.name} - Info",color=discord.Color.blue(),timestamp=datetime.datetime.now())
-            embed.add_field(name="アカウント作成日",value=f"<t:{int(time.mktime(user.created_at.timetuple()))}:R> | <t:{int(time.mktime(user.created_at.timetuple()))}:D>")
+            embed=discord.Embed(title=f"{user.name} - Info",color=discord.Color.blue(),
+                                timestamp=datetime.datetime.now())
+            embed.add_field(name="アカウント作成日",
+                            value=f"<t:{int(time.mktime(user.created_at.timetuple()))}:R> | <t:{int(time.mktime(user.created_at.timetuple()))}:D>")
             embed.add_field(name="アカウント参加日",value=f"<t:{int(time.mktime(user.joined_at.timetuple()))}:R> | <t:{int(time.mktime(user.joined_at.timetuple()))}:D>")
             embed.add_field(name="ユーザーID",value=user.id,inline=False)
             embed.add_field(name="アイコンURL",value=f"[ユーザーアバター URL]({user.avatar.url})")
@@ -204,8 +209,8 @@ class ModCommands(app_commands.Group):
                                                                            interaction.guild.name
                                                                            ))
 
-class logChannelSelect(app_commands.Group):
-    """logChannelSelect Class
+class LogChannelSelect(app_commands.Group):
+    """LogChannelSelect Class
 
         Its function will be registered when bot will start
     """
@@ -220,7 +225,8 @@ class logChannelSelect(app_commands.Group):
         A command to set up log channel
         """
         bot_icon=await BOT.user.avatar.read()
-        webhook=await channel.create_webhook(name="CalicobotLog",avatar=bot_icon,reason="to get logs")
+        webhook=await channel.create_webhook(
+            name="CalicobotLog",avatar=bot_icon,reason="to get logs")
         await interaction.response.send_message(f":white_check_mark:`{webhook.name}`を作成しました!")
 
     @app_commands.command(description="ログを取っているチャンネルでログを取れなくします")
@@ -234,4 +240,5 @@ class logChannelSelect(app_commands.Group):
         for webhook in webhooks:
             if webhook.name == "CalicobotLog":
                 await webhook.delete()
-                await interaction.response.send_message(f":white_check_mark:`{webhook.name}`を削除し\nログを取れなくました")
+                await interaction.response.send_message(
+                    f":white_check_mark:`{webhook.name}`を削除し\nログを取れなくました")

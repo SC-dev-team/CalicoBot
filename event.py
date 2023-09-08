@@ -30,7 +30,9 @@ class BotEvents(commands.Cog):
         if before.author.BOT:
             return
         embed=discord.Embed(color=discord.Color.red(),timestamp=datetime.datetime.now())
-        embed.add_field(name="",value=f"{before.channel.mention}でメッセージが編集されました。\n[ページ移動]({after.jump_url})",inline=False)
+        embed.add_field(name="",
+                        value=f"{before.channel.mention}でメッセージが編集されました。\n[ページ移動]({after.jump_url})",
+                        inline=False)
         embed.add_field(name="変更前",value=f"```{before.content}```",inline=False)
         embed.add_field(name="変更後",value=f"```{after.content}```",inline=False)
         embed.set_author(icon_url=before.author.avatar.url,name=before.author.global_name)
@@ -53,9 +55,12 @@ class BotEvents(commands.Cog):
         """
         if member.banner is None:
             guild=member.guild
-            embed=discord.Embed(title=f"`{member.global_name}`がサーバーから退出しました",color=discord.Color.red(),timestamp=datetime.datetime.now())
-            embed.add_field(name="アカウント作成日",value=f"<t:{int(time.mktime(member.created_at.timetuple()))}:R>")
-            embed.add_field(name="アカウント参加日",value=f"<t:{int(time.mktime(member.joined_at.now().timetuple()))}:R>")
+            embed=discord.Embed(title=f"`{member.global_name}`がサーバーから退出しました",
+                                color=discord.Color.red(),timestamp=datetime.datetime.now())
+            embed.add_field(name="アカウント作成日",
+                            value=f"<t:{int(time.mktime(member.created_at.timetuple()))}:R>")
+            embed.add_field(name="アカウント参加日",
+                            value=f"<t:{int(time.mktime(member.joined_at.now().timetuple()))}:R>")
             embed.add_field(name="ID",value=f"```{member.id}```",inline=False)
             embed.set_thumbnail(url=member.avatar.url)
             embed.set_footer(text=guild.name)
@@ -78,7 +83,9 @@ class BotEvents(commands.Cog):
         if message.author.bot:
             return
         embed=discord.Embed(color=discord.Color.red(),timestamp=datetime.datetime.now())
-        embed.add_field(name="",value=f"{message.channel.mention}で{message.author.mention}のメッセージが削除されました",inline=False)
+        embed.add_field(
+            name="",value=f"{message.channel.mention}で{message.author.mention}のメッセージが削除されました",
+            inline=False)
         embed.add_field(name="メッセージの内容",value=f"```{message.content}```",inline=False)
         embed.set_author(icon_url=message.author.avatar.url,name=message.author.global_name)
         embed.set_footer(text=message.guild.name)
@@ -147,7 +154,8 @@ class BotEvents(commands.Cog):
         When moderetor ban member,Invoke this.
         """
         async for action in guild.audit_logs(action=discord.AuditLogAction.ban):
-            embed=discord.Embed(title=f"`{user.global_name}`がBANされました",color=discord.Color.red(),timestamp=datetime.datetime.now())
+            embed=discord.Embed(title=f"`{user.global_name}`がBANされました",
+                                color=discord.Color.red(),timestamp=datetime.datetime.now())
             embed.add_field(name="担当者",value=action.user.mention)
             embed.add_field(name="理由",value=action.reason)
             embed.set_author(icon_url=action.user.avatar.url,name=action.user)
@@ -169,8 +177,11 @@ class BotEvents(commands.Cog):
         When member join to the server,Invoke this.
         """
         guild=member.guild
-        embed=discord.Embed(title=f"`{member.global_name}`が参加しました",color=discord.Color.red(),timestamp=datetime.datetime.now())
-        embed.add_field(name="アカウント作成日",value=f"<t:{int(time.mktime(member.created_at.timetuple()))}:R>",inline=False)
+        embed=discord.Embed(title=f"`{member.global_name}`が参加しました",
+                            color=discord.Color.red(),timestamp=datetime.datetime.now())
+        embed.add_field(name="アカウント作成日",
+                        value=f"<t:{int(time.mktime(member.created_at.timetuple()))}:R>",
+                        inline=False)
         embed.add_field(name="ID",value=f"```{member.id}```",inline=False)
         embed.set_thumbnail(url=member.avatar.url)
         embed.set_footer(text=member.guild.name)
@@ -191,7 +202,8 @@ class BotEvents(commands.Cog):
         When moderetor unban member,Invoke this.
         """
         async for action in guild.audit_logs(action=discord.AuditLogAction.unban):
-            embed=discord.Embed(title=f"`{user.global_name}`がunBANされました",color=discord.Color.red(),timestamp=datetime.datetime.now())
+            embed=discord.Embed(title=f"`{user.global_name}`がunBANされました",
+                                color=discord.Color.red(),timestamp=datetime.datetime.now())
             embed.add_field(name="担当者",value=action.user.mention)
             embed.add_field(name="ID",value=f"```{user.id}```")
             embed.set_author(icon_url=action.user.avatar.url,name=action.user)
@@ -260,7 +272,8 @@ class BotEvents(commands.Cog):
         """Generate presence when status changed
         """
         await BOT.change_presence(status=discord.Status.online,
-                                  activity=discord.Game(name=f"mod!help | {len(BOT.guilds)} server"))
+                                  activity=discord.Game(
+                                      name=f"mod!help | {len(BOT.guilds)} server"))
 
 
     @commands.Cog.listener(name="guildRemove")
@@ -268,4 +281,5 @@ class BotEvents(commands.Cog):
         """Generate presence when status changed
         """
         await BOT.change_presence(status=discord.Status.online,
-                                  activity=discord.Game(name=f"mod!help | {len(BOT.guilds)} server"))
+                                  activity=discord.Game(
+                                      name=f"mod!help | {len(BOT.guilds)} server"))
