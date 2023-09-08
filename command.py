@@ -3,16 +3,29 @@ Implementing CalicoBot commands
 """
 import datetime
 import time
-import embeds
 import discord
-from discord.ext import commands
 from discord import app_commands
 
-user_karma_list=list()
-def command_init(main_list):
-    user_karma_list = main_list
+import embeds
 
-bot=commands.Bot(command_prefix="t?",intents=discord.Intents.all())
+BOT = None
+def command_init(main_bot):
+    """
+    A function to initialize command module
+    Args:
+        main_bot (discord.bot): set your bot instance to get channels
+    """
+    global BOT# pylint: disable=global-statement
+    BOT = main_bot
+
+user_karma_list=[]
+def command_init(main_list):
+    """A function to initialize command module
+    Args:
+        main_list (list): input your user karma data
+    """
+    global user_karma_list# pylint: disable=global-statement
+    user_karma_list = main_list
 
 class MemberCommands(app_commands.Group):
     """MemberCommands Class
@@ -31,7 +44,7 @@ class MemberCommands(app_commands.Group):
         guild_online_member=0
         for online_member in guild.members:
             if online_member.status == discord.Status.online:
-                guild_online_member + 1
+                guild_online_member =+ 1
 
         role_list=[]
         for role in guild.roles:
@@ -191,7 +204,7 @@ class ModCommands(app_commands.Group):
                                                                            interaction.guild.name
                                                                            ))
 
-class log_channel_select(app_commands.Group):
+class logChannelSelect(app_commands.Group):
     """logChannelSelect Class
 
         Its function will be registered when bot will start
@@ -206,7 +219,7 @@ class log_channel_select(app_commands.Group):
         """
         A command to set up log channel
         """
-        bot_icon=await bot.user.avatar.read()
+        bot_icon=await BOT.user.avatar.read()
         webhook=await channel.create_webhook(name="CalicobotLog",avatar=bot_icon,reason="to get logs")
         await interaction.response.send_message(f":white_check_mark:`{webhook.name}`を作成しました!")
 

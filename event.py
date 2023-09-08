@@ -6,21 +6,27 @@ import datetime
 from discord.ext import commands
 import time
 
-bot = None
+BOT = None
 def event_init(main_bot):
-    bot = main_bot
+    """
+    A function to initialize event module
+    Args:
+        main_bot (discord.bot): set your bot instance to get channels
+    """
+    global BOT# pylint: disable=global-statement
+    BOT = main_bot
 
 class BotEvents(commands.Cog):
     """BotEventsClass
         Its function will be registered when bot will start
     """
 
-    @commands.Cog.listener
+    @commands.Cog.listener(name="messageEdit")
     async def on_message_edit(self, before: discord.Message, after: discord.Message):
         """
         When user edit message,Invoke this.
         """
-        if before.author.bot:
+        if before.author.BOT:
             return
         embed=discord.Embed(color=discord.Color.red(),timestamp=datetime.datetime.now())
         embed.add_field(name="",value=f"{before.channel.mention}でメッセージが編集されました。\n[ページ移動]({after.jump_url})",inline=False)
@@ -29,7 +35,7 @@ class BotEvents(commands.Cog):
         embed.set_author(icon_url=before.author.avatar.url,name=before.author.global_name)
         embed.set_footer(text=before.guild.name)
 
-        bot_channel=bot.get_all_channels()
+        bot_channel=BOT.get_all_channels()
         for channel in bot_channel:
             if channel.guild == before.guild:
                 if isinstance(channel, discord.TextChannel):
@@ -39,7 +45,7 @@ class BotEvents(commands.Cog):
                             await webhook.send(embed=embed)
                             return
 
-    @commands.Cog.listener
+    @commands.Cog.listener(name="memberRemove")
     async def on_member_remove(self, member:discord.Member):
         """
         When user is kicked or is banned or leave from server,Invoke this.
@@ -53,7 +59,7 @@ class BotEvents(commands.Cog):
             embed.set_thumbnail(url=member.avatar.url)
             embed.set_footer(text=guild.name)
 
-            bot_channel=bot.get_all_channels()
+            bot_channel=BOT.get_all_channels()
             for channel in bot_channel:
                 if channel.guild == guild:
                     if isinstance(channel, discord.TextChannel):
@@ -63,7 +69,7 @@ class BotEvents(commands.Cog):
                                 await webhook.send(embed=embed)
                                 return
 
-    @commands.Cog.listener
+    @commands.Cog.listener(name="messageDelete")
     async def on_message_delete(self, message: discord.Message):
         """
         When user delete message,Invoke this.
@@ -76,7 +82,7 @@ class BotEvents(commands.Cog):
         embed.set_author(icon_url=message.author.avatar.url,name=message.author.global_name)
         embed.set_footer(text=message.guild.name)
 
-        bot_channel=bot.get_all_channels()
+        bot_channel=BOT.get_all_channels()
         for channel in bot_channel:
             if channel.guild == message.guild:
                 if isinstance(channel, discord.TextChannel):
@@ -86,7 +92,7 @@ class BotEvents(commands.Cog):
                             await webhook.send(embed=embed)
                             return
 
-    @commands.Cog.listener
+    @commands.Cog.listener(name="channelCreate")
     async def on_guild_channel_create(self, channel: discord.abc.GuildChannel):
         """
         When moderetor create channel,Invoke this.
@@ -100,7 +106,7 @@ class BotEvents(commands.Cog):
             embed.set_author(icon_url=action.user.avatar.url,name=action.user.name)
             embed.set_footer(text=channel.guild.name)
 
-            bot_channel=bot.get_all_channels()
+            bot_channel=BOT.get_all_channels()
             for eventchannel in bot_channel:
                 if eventchannel.guild == guild:
                     if isinstance(eventchannel, discord.TextChannel):
@@ -110,7 +116,7 @@ class BotEvents(commands.Cog):
                                 await webhook.send(embed=embed)
                                 return
 
-    @commands.Cog.listener
+    @commands.Cog.listener(name="channelDelete")
     async def on_guild_channel_delete(self, channel: discord.abc.GuildChannel):
         """
         When moderetor delete channel,Invoke this.
@@ -124,7 +130,7 @@ class BotEvents(commands.Cog):
             embed.set_author(icon_url=action.user.avatar.url,name=action.user.name)
             embed.set_footer(text=channel.guild.name)
 
-            bot_channel=bot.get_all_channels()
+            bot_channel=BOT.get_all_channels()
             for eventchannel in bot_channel:
                 if eventchannel.guild == guild:
                     if isinstance(eventchannel, discord.TextChannel):
@@ -134,7 +140,7 @@ class BotEvents(commands.Cog):
                                 await webhook.send(embed=embed)
                                 return
 
-    @commands.Cog.listener
+    @commands.Cog.listener(name="memberBan")
     async def on_member_ban(self, guild: discord.Guild, user: discord.User):
         """
         When moderetor ban member,Invoke this.
@@ -146,7 +152,7 @@ class BotEvents(commands.Cog):
             embed.set_author(icon_url=action.user.avatar.url,name=action.user)
             embed.set_footer(text=guild.name)
 
-            bot_channel=bot.get_all_channels()
+            bot_channel=BOT.get_all_channels()
             for channel in bot_channel:
                 if channel.guild == guild:
                     if isinstance(channel, discord.TextChannel):
@@ -156,7 +162,7 @@ class BotEvents(commands.Cog):
                                 await webhook.send(embed=embed)
                                 return
 
-    @commands.Cog.listener
+    @commands.Cog.listener(name="memberJoin")
     async def on_member_join(self, member: discord.Member):
         """
         When member join to the server,Invoke this.
@@ -168,7 +174,7 @@ class BotEvents(commands.Cog):
         embed.set_thumbnail(url=member.avatar.url)
         embed.set_footer(text=member.guild.name)
 
-        bot_channel=bot.get_all_channels()
+        bot_channel=BOT.get_all_channels()
         for channel in bot_channel:
             if channel.guild == guild:
                 if isinstance(channel, discord.TextChannel):
@@ -178,7 +184,7 @@ class BotEvents(commands.Cog):
                             await webhook.send(embed=embed)
                             return
 
-    @commands.Cog.listener
+    @commands.Cog.listener(name="memberunBan")
     async def on_member_unban(self, guild: discord.Guild, user: discord.User):
         """
         When moderetor unban member,Invoke this.
@@ -190,7 +196,7 @@ class BotEvents(commands.Cog):
             embed.set_author(icon_url=action.user.avatar.url,name=action.user)
             embed.set_footer(text=guild.name)
 
-            bot_channel=bot.get_all_channels()
+            bot_channel=BOT.get_all_channels()
             for channel in bot_channel:
                 if channel.guild == guild:
                     if isinstance(channel, discord.TextChannel):
@@ -200,7 +206,7 @@ class BotEvents(commands.Cog):
                                 await webhook.send(embed=embed)
                                 return
 
-    @commands.Cog.listener
+    @commands.Cog.listener(name="roleCreate")
     async def on_guild_role_create(self, role: discord.Role):
         """
         When moderetor create role,Invoke this.
@@ -214,7 +220,7 @@ class BotEvents(commands.Cog):
             embed.set_author(icon_url=action.user.avatar.url,name=action.user.global_name)
             embed.set_footer(text=guild.name)
 
-            bot_channel=bot.get_all_channels()
+            bot_channel=BOT.get_all_channels()
             for channel in bot_channel:
                 if channel.guild == guild:
                     if isinstance(channel, discord.TextChannel):
@@ -224,7 +230,7 @@ class BotEvents(commands.Cog):
                                 await webhook.send(embed=embed)
                                 return
 
-    @commands.Cog.listener
+    @commands.Cog.listener(name="roleDelete")
     async def on_guild_role_delete(self, role: discord.Role):
         """
         When moderetor delete role,Invoke this.
@@ -238,7 +244,7 @@ class BotEvents(commands.Cog):
             embed.set_author(icon_url=action.user.avatar.url,name=action.user.global_name)
             embed.set_footer(text=guild.name)
 
-            bot_channel=bot.get_all_channels()
+            bot_channel=BOT.get_all_channels()
             for channel in bot_channel:
                 if channel.guild == guild:
                     if isinstance(channel, discord.TextChannel):
@@ -248,20 +254,20 @@ class BotEvents(commands.Cog):
                                 await webhook.send(embed=embed)
                                 return
 
-    @commands.Cog.listener
+    @commands.Cog.listener(name="guildJoin")
     async def on_guild_join(self):
         """Generate presence when status changed
         """
-        await bot.change_presence(status=discord.Status.online,
-                                  activity=discord.Game(name=f"mod!help | {len(bot.guilds)} server"))
+        await BOT.change_presence(status=discord.Status.online,
+                                  activity=discord.Game(name=f"mod!help | {len(BOT.guilds)} server"))
 
 
-    @commands.Cog.listener
+    @commands.Cog.listener(name="guildRemove")
     async def on_guild_remove(self):
         """Generate presence when status changed
         """
-        await bot.change_presence(status=discord.Status.online,
-                                  activity=discord.Game(name=f"mod!help | {len(bot.guilds)} server"))
+        await BOT.change_presence(status=discord.Status.online,
+                                  activity=discord.Game(name=f"mod!help | {len(BOT.guilds)} server"))
 
 #@commands.Cog.listener
 #async def on_member_update(before: discord.Member, after: discord.Member):
