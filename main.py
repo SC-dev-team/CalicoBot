@@ -11,7 +11,7 @@ import command
 import event
 
 bot = commands.Bot(command_prefix=commands.when_mentioned_or("mod!"),
-                    intents=discord.Intents.all(), 
+                    intents=discord.Intents.all(),
                     activity=discord.Game(name="mod!help"))
 bot.remove_command("help")
 Token = os.environ['DISCORD_BOT_TOKEN']  # Load Bot Token
@@ -63,6 +63,7 @@ async def on_ready():
     """Call when discord bot's status is ready
     """
     print("起動しました")
+    await bot.add_cog(event.BotEvents())
     await bot.change_presence(
         status=discord.Status.online,
         activity=discord.Game(name=f"mod!help | {len(bot.guilds)} server")
@@ -166,7 +167,6 @@ async def unban_command(ctx, member: discord.User, reason: str = "無し"):
                                               reason,
                                               ctx.guild.name))
 
-event.BotEvents()
 bot.tree.add_command(command.LogChannelSelect("log"))
 bot.tree.add_command(command.ModCommands("mod"))
 bot.tree.add_command(command.MemberCommands("member"))

@@ -67,13 +67,12 @@ class BotEvents(commands.Cog):
 
             bot_channel=BOT.get_all_channels()
             for channel in bot_channel:
-                if channel.guild == guild:
-                    if isinstance(channel, discord.TextChannel):
-                        webhooks=await channel.webhooks()
-                        for webhook in webhooks:
-                            if webhook.name == "CalicobotLog":
-                                await webhook.send(embed=embed)
-                                return
+                if channel.guild == guild and isinstance(channel, discord.TextChannel):
+                    webhooks=await channel.webhooks()
+                    for webhook in webhooks:
+                        if webhook.name == "CalicobotLog":
+                            await webhook.send(embed=embed)
+                            return
 
     @commands.Cog.listener(name="messageDelete")
     async def on_message_delete(self, message: discord.Message):

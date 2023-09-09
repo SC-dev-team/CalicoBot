@@ -55,8 +55,14 @@ class MemberCommands(app_commands.Group):
         embed.add_field(name="作成日",value=f"<t:{int(time.mktime(guild.created_at.timetuple()))}:R>")
         embed.add_field(name="サーバーID",value=f"{guild.id}")
         embed.add_field(name="所有者",value=guild.owner.mention)
-        embed.add_field(name=f"メンバー数({guild.member_count})",value=f"**{str(guild_online_member)}** オンライン\n**{guild.premium_subscription_count}** ブースター")
-        embed.add_field(name=f"チャンネル数({len(guild.channels)})",value=f"**{len(guild.text_channels)}** テキストチャンネル\n**{len(guild.voice_channels)}** ボイスチャンネル")
+        embed.add_field(name=f"メンバー数({guild.member_count})",
+                        value="\n".join([f"**{str(guild_online_member)}** オンライン",
+                                         f"**{guild.premium_subscription_count}** ブースター"])
+                                         )
+        embed.add_field(name=f"チャンネル数({len(guild.channels)})",
+                        value="\n".join([f"**{len(guild.text_channels)}** テキストチャンネル",
+                                    f"**{len(guild.voice_channels)}** ボイスチャンネル"])
+                                    )
         embed.add_field(name=f"ロール({len(guild.roles)})",value="".join([rlb]),inline=False)
         embed.set_author(icon_url=interaction.user.avatar.url,name=interaction.user.global_name)
         embed.set_footer(text=guild.name)
@@ -77,10 +83,18 @@ class MemberCommands(app_commands.Group):
                 if role.name != "@everyone":
                     role_list.append(role.mention)
             rlb=" | ".join(role_list)
+            created_timetuple = interaction.user.created_at.timetuple()
+            joined_timetuple = interaction.user.joined_at.timetuple()
             embed=discord.Embed(title=f"{interaction.user.name} - Info",color=discord.Color.blue(),
                                 timestamp=datetime.datetime.now())
-            embed.add_field(name="アカウント作成日",value=f"<t:{int(time.mktime(interaction.user.created_at.timetuple()))}:R> | <t:{int(time.mktime(interaction.user.created_at.timetuple()))}:D>")
-            embed.add_field(name="アカウント参加日",value=f"<t:{int(time.mktime(interaction.user.joined_at.timetuple()))}:R> | <t:{int(time.mktime(interaction.user.joined_at.timetuple()))}:D>")
+            embed.add_field(name="アカウント作成日",
+                            value=" | ".join([f"<t:{int(time.mktime(created_timetuple))}:R>",
+                                              f"<t:{int(time.mktime(created_timetuple))}:D>"])
+                                              )
+            embed.add_field(name="アカウント参加日",
+                            value=" | ".join([f"<t:{int(time.mktime(joined_timetuple))}:R>",
+                                              f"<t:{int(time.mktime(joined_timetuple))}:D>"])
+                                              )
             embed.add_field(name="ユーザーID",value=interaction.user.id,inline=False)
             embed.add_field(name="アイコンURL",value=f"[ユーザーアバター URL]({interaction.user.avatar.url})")
             embed.add_field(name=f"ロール({len(interaction.user.roles)})",
@@ -97,11 +111,18 @@ class MemberCommands(app_commands.Group):
                 if role.name != "@everyone":
                     role_list.append(role.mention)
             rlb=" | ".join(role_list)
+            created_timetuple = user.created_at.timetuple()
+            joined_timetuple = user.joined_at.timetuple()
             embed=discord.Embed(title=f"{user.name} - Info",color=discord.Color.blue(),
                                 timestamp=datetime.datetime.now())
             embed.add_field(name="アカウント作成日",
-                            value=f"<t:{int(time.mktime(user.created_at.timetuple()))}:R> | <t:{int(time.mktime(user.created_at.timetuple()))}:D>")
-            embed.add_field(name="アカウント参加日",value=f"<t:{int(time.mktime(user.joined_at.timetuple()))}:R> | <t:{int(time.mktime(user.joined_at.timetuple()))}:D>")
+                            value=" | ".join([f"<t:{int(time.mktime(created_timetuple))}:R>",
+                                              f"<t:{int(time.mktime(created_timetuple))}:D>"])
+                                              )
+            embed.add_field(name="アカウント参加日",
+                            value=" | ".join([f"<t:{int(time.mktime(joined_timetuple))}:R>",
+                                              f"<t:{int(time.mktime(joined_timetuple))}:D>"])
+                                              )
             embed.add_field(name="ユーザーID",value=user.id,inline=False)
             embed.add_field(name="アイコンURL",value=f"[ユーザーアバター URL]({user.avatar.url})")
             embed.add_field(name=f"ロール({len(user.roles)})",value="".join([rlb]),inline=False)
