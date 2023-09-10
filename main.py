@@ -63,7 +63,7 @@ async def on_ready():
     """Call when discord bot's status is ready
     """
     print("起動しました")
-    await bot.add_cog(event.BotEvents())
+    await bot.add_cog(event.BotEvents(bot))
     await bot.change_presence(
         status=discord.Status.online,
         activity=discord.Game(name=f"mod!help | {len(bot.guilds)} server")

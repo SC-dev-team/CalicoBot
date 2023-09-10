@@ -21,13 +21,15 @@ class BotEvents(commands.Cog):
     """BotEventsClass
         Its function will be registered when bot will start
     """
+    def __init__(self, bot):
+        self.bot = bot
 
-    @commands.Cog.listener(name="messageEdit")
+    @commands.Cog.listener()
     async def on_message_edit(self, before: discord.Message, after: discord.Message):
         """
         When user edit message,Invoke this.
         """
-        if before.author.BOT:
+        if before.author.bot:
             return
         embed=discord.Embed(color=discord.Color.red(),timestamp=datetime.datetime.now())
         embed.add_field(name="",
@@ -48,7 +50,7 @@ class BotEvents(commands.Cog):
                             await webhook.send(embed=embed)
                             return
 
-    @commands.Cog.listener(name="memberRemove")
+    @commands.Cog.listener()
     async def on_member_remove(self, member:discord.Member):
         """
         When user is kicked or is banned or leave from server,Invoke this.
@@ -74,7 +76,7 @@ class BotEvents(commands.Cog):
                             await webhook.send(embed=embed)
                             return
 
-    @commands.Cog.listener(name="messageDelete")
+    @commands.Cog.listener()
     async def on_message_delete(self, message: discord.Message):
         """
         When user delete message,Invoke this.
@@ -99,7 +101,7 @@ class BotEvents(commands.Cog):
                             await webhook.send(embed=embed)
                             return
 
-    @commands.Cog.listener(name="channelCreate")
+    @commands.Cog.listener()
     async def on_guild_channel_create(self, channel: discord.abc.GuildChannel):
         """
         When moderetor create channel,Invoke this.
@@ -123,7 +125,7 @@ class BotEvents(commands.Cog):
                                 await webhook.send(embed=embed)
                                 return
 
-    @commands.Cog.listener(name="channelDelete")
+    @commands.Cog.listener()
     async def on_guild_channel_delete(self, channel: discord.abc.GuildChannel):
         """
         When moderetor delete channel,Invoke this.
@@ -147,7 +149,7 @@ class BotEvents(commands.Cog):
                                 await webhook.send(embed=embed)
                                 return
 
-    @commands.Cog.listener(name="memberBan")
+    @commands.Cog.listener()
     async def on_member_ban(self, guild: discord.Guild, user: discord.User):
         """
         When moderetor ban member,Invoke this.
@@ -170,7 +172,7 @@ class BotEvents(commands.Cog):
                                 await webhook.send(embed=embed)
                                 return
 
-    @commands.Cog.listener(name="memberJoin")
+    @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member):
         """
         When member join to the server,Invoke this.
@@ -195,7 +197,7 @@ class BotEvents(commands.Cog):
                             await webhook.send(embed=embed)
                             return
 
-    @commands.Cog.listener(name="memberunBan")
+    @commands.Cog.listener()
     async def on_member_unban(self, guild: discord.Guild, user: discord.User):
         """
         When moderetor unban member,Invoke this.
@@ -218,7 +220,7 @@ class BotEvents(commands.Cog):
                                 await webhook.send(embed=embed)
                                 return
 
-    @commands.Cog.listener(name="roleCreate")
+    @commands.Cog.listener()
     async def on_guild_role_create(self, role: discord.Role):
         """
         When moderetor create role,Invoke this.
@@ -242,7 +244,7 @@ class BotEvents(commands.Cog):
                                 await webhook.send(embed=embed)
                                 return
 
-    @commands.Cog.listener(name="roleDelete")
+    @commands.Cog.listener()
     async def on_guild_role_delete(self, role: discord.Role):
         """
         When moderetor delete role,Invoke this.
@@ -266,7 +268,7 @@ class BotEvents(commands.Cog):
                                 await webhook.send(embed=embed)
                                 return
 
-    @commands.Cog.listener(name="guildJoin")
+    @commands.Cog.listener()
     async def on_guild_join(self):
         """Generate presence when status changed
         """
@@ -275,7 +277,7 @@ class BotEvents(commands.Cog):
                                       name=f"mod!help | {len(BOT.guilds)} server"))
 
 
-    @commands.Cog.listener(name="guildRemove")
+    @commands.Cog.listener()
     async def on_guild_remove(self):
         """Generate presence when status changed
         """
