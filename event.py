@@ -284,3 +284,9 @@ class BotEvents(commands.Cog):
         await BOT.change_presence(status=discord.Status.online,
                                   activity=discord.Game(
                                       name=f"mod!help | {len(BOT.guilds)} server"))
+
+async def setup(bot):
+    """
+    Call when execution bot's reload commands or bot's status is ready
+    """
+    await bot.add_cog(BotEvents(bot))

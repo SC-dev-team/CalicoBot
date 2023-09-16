@@ -2,6 +2,7 @@
 """
 import os
 import json  # due to load user karma
+import datetime
 
 import discord
 from discord.ext import commands
@@ -63,7 +64,8 @@ async def on_ready():
     """Call when discord bot's status is ready
     """
     print("起動しました")
-    await bot.add_cog(event.BotEvents(bot))
+    await bot.load_extension("event")
+    await bot.load_extension("command")
     await bot.change_presence(
         status=discord.Status.online,
         activity=discord.Game(name=f"mod!help | {len(bot.guilds)} server")
@@ -167,9 +169,19 @@ async def unban_command(ctx, member: discord.User, reason: str = "無し"):
                                               reason,
                                               ctx.guild.name))
 
-bot.tree.add_command(command.LogChannelSelect("log"))
-bot.tree.add_command(command.ModCommands("mod"))
-bot.tree.add_command(command.MemberCommands("member"))
+@bot.command(name="reload")
+async def reload_command(ctx, cogname: str):
+    """When user use mod! reload,Invoke this
+    """
+    if ctx.guild.id != 1144048887825449030:
+        return
+    await bot.reload_extension(name=cogname)
+    embed=discord.Embed(title=f"Cogをリロードしました|Cog name:`{cogname}`",
+                        color=discord.Color.green(),timestamp=datetime.datetime.now())
+    embed.set_footer(text=ctx.author.display_name,icon_url=ctx.author.avatar.url)
+
+    await ctx.send(embed=embed)
+
 try:
     bot.run(Token)
 finally:

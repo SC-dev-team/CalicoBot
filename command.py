@@ -5,6 +5,7 @@ import datetime
 import time
 import discord
 from discord import app_commands
+from discord.ext import commands
 
 import embeds
 
@@ -27,14 +28,15 @@ def command_init(main_list):
     global user_karma_list# pylint: disable=global-statement
     user_karma_list = main_list
 
-class MemberCommands(app_commands.Group):
+class Member(commands.GroupCog):
     """MemberCommands Class
 
         Its function will be registered when bot will start
     """
 
-    def __init__(self, name: str):
-        super().__init__(name=name)
+    def __init__(self, bot):
+        self.bot = bot
+
     @app_commands.command(description="サーバーの情報を表示します")
     async def serverinfo(self, interaction: discord.Interaction):
         """
@@ -132,14 +134,14 @@ class MemberCommands(app_commands.Group):
 
             await interaction.response.send_message(embed=embed)
 
-class ModCommands(app_commands.Group):
+class Mod(commands.GroupCog):
     """ModCommands Class
 
         Its function will be registered when bot will start
     """
 
-    def __init__(self, name: str):
-        super().__init__(name=name)
+    def __init__(self, bot):
+        self.bot = bot
 
     @app_commands.command(description="指定したメンバーをBANします")
     @app_commands.checks.has_permissions(ban_members=True)
@@ -230,14 +232,15 @@ class ModCommands(app_commands.Group):
                                                                            interaction.guild.name
                                                                            ))
 
-class LogChannelSelect(app_commands.Group):
+class Log(commands.GroupCog):
     """LogChannelSelect Class
 
         Its function will be registered when bot will start
     """
 
-    def __init__(self, name: str):
-        super().__init__(name=name)
+    def __init__(self, bot):
+        self.bot = bot
+
     @app_commands.command(description="ログを取るためのチャンネルを設定します")
     @app_commands.checks.has_permissions(administrator=True)
     @app_commands.describe(channel="ログを取るチャンネル")
@@ -263,3 +266,12 @@ class LogChannelSelect(app_commands.Group):
                 await webhook.delete()
                 await interaction.response.send_message(
                     f":white_check_mark:`{webhook.name}`を削除し\nログを取れなくました")
+
+async def setup(bot):
+    """
+    Call when execution bot's reload commands or bot's status is ready
+    """
+    await bot.add_cog(Member(bot))
+    await bot.add_cog(Mod(bot))
+    await bot.add_cog(Log(bot))
+    await bot.tree.sync()
