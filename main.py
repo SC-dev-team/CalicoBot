@@ -177,7 +177,7 @@ async def reload_command(ctx, cogname: str):
         return
     await bot.reload_extension(name=cogname)
     embed=discord.Embed(title=f"Cogをリロードしました|Cog name:`{cogname}`",
-                        color=discord.Color.green,timestamp=datetime.datetime.now())
+                        color=discord.Color.green(),timestamp=datetime.datetime.now())
     embed.set_footer(text=ctx.author.display_name,icon_url=ctx.author.avatar.url)
 
     await ctx.send(embed=embed)
