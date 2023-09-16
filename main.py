@@ -173,7 +173,7 @@ async def unban_command(ctx, member: discord.User, reason: str = "無し"):
 async def reload_command(ctx, cogname: str):
     """When user use mod! reload,Invoke this
     """
-    if not ctx.guild.id is 1144048887825449030:
+    if ctx.guild.id != 1144048887825449030:
         return
     await bot.reload_extension(name=cogname)
     embed=discord.Embed(title=f"Cogをリロードしました|Cog name:`{cogname}`",

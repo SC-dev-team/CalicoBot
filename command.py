@@ -274,18 +274,4 @@ async def setup(bot):
     await bot.add_cog(Member(bot))
     await bot.add_cog(Mod(bot))
     await bot.add_cog(Log(bot))
-    try:
-        await bot.tree.sync()
-    except discord.app_commands.TranslationError:
-        print("TranslationError. Please restart later...")
-    except discord.app_commands.MissingApplicationID:
-        print("Missing ApplicationID. Exiting...")
-        raise
-    except discord.app_commands.CommandSyncFailure:
-        print("Some commands worng . Exiting...")
-        raise
-    except discord.Forbidden:
-        print(
-            "Don't have permission in some server. Couldn't sync command in some server...")
-    except discord.HTTPException:
-        print("HTTPException. Please restart later...")
+    await bot.tree.sync()
