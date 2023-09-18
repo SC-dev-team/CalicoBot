@@ -37,7 +37,7 @@ class Member(commands.GroupCog):
             lambda member: member.status == discord.Status.online,
             guild.members
         )
-        guild_online_member = len(member_list)
+        guild_online_member = len(list(member_list))
         rlb = " | ".join([role.mention for role in guild.roles])
         embed=discord.Embed(title=f"{guild.name} - Info",color=discord.Color.blue(),
                             timestamp=datetime.datetime.now())
