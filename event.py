@@ -42,8 +42,10 @@ class BotEvents(commands.Cog):
 
         for channel in channel.guild.text_channels:
             webhooks=await channel.webhooks()
-            webhook = discord.utils.get(webhooks,name="CalicobotLog") # Return webhook object named CalicobotLog
-            if webhook: # If it can't find webhook, it will return None
+            webhook = discord.utils.get(webhooks,name="CalicobotLog")
+            # Return webhook object named CalicobotLog
+            # If it can't find webhook, it will return None
+            if webhook:
                 webhook.send(embed=embed)
                 return
 
@@ -66,8 +68,10 @@ class BotEvents(commands.Cog):
 
             for channel in channel.guild.text_channels:
                 webhooks=await channel.webhooks()
-                webhook = discord.utils.get(webhooks,name="CalicobotLog") # Return webhook object named CalicobotLog
-                if webhook: # If it can't find webhook, it will return None
+                webhook = discord.utils.get(webhooks,name="CalicobotLog")
+                # Return webhook object named CalicobotLog
+                # If it can't find webhook, it will return None
+                if webhook:
                     webhook.send(embed=embed)
                     return
 
@@ -86,11 +90,12 @@ class BotEvents(commands.Cog):
         embed.set_author(icon_url=message.author.avatar.url,name=message.author.global_name)
         embed.set_footer(text=message.guild.name)
 
-        bot_channel=self.bot.get_all_channels()
         for channel in channel.guild.text_channels:
             webhooks = await channel.webhooks()
-            webhook = discord.utils.get(webhooks,name="CalicobotLog") # Return webhook object named CalicobotLog
-            if webhook: # If it can't find webhook, it will return None
+            webhook = discord.utils.get(webhooks,name="CalicobotLog")
+            # Return webhook object named CalicobotLog
+            # If it can't find webhook, it will return None
+            if webhook:
                 webhook.send(embed=embed)
                 return
 
@@ -110,8 +115,10 @@ class BotEvents(commands.Cog):
 
             for eventchannel in guild.text_channels:
                 webhooks=await eventchannel.webhooks()
-                webhook = discord.utils.get(webhooks,name="CalicobotLog") # Return webhook object named CalicobotLog
-                if webhook: # If it can't find webhook, it will return None
+                webhook = discord.utils.get(webhooks,name="CalicobotLog")
+                # Return webhook object named CalicobotLog
+                # If it can't find webhook, it will return None
+                if webhook:
                     webhook.send(embed=embed)
                     return
 
@@ -131,8 +138,10 @@ class BotEvents(commands.Cog):
 
             for eventchannel in guild.text_channels:
                 webhooks=await eventchannel.webhooks()
-                webhook = discord.utils.get(webhooks,name="CalicobotLog") # Return webhook object named CalicobotLog
-                if webhook: # If it can't find webhook, it will return None
+                webhook = discord.utils.get(webhooks,name="CalicobotLog")
+                # Return webhook object named CalicobotLog
+                # If it can't find webhook, it will return None
+                if webhook:
                     webhook.send(embed=embed)
                     return
 
@@ -151,8 +160,10 @@ class BotEvents(commands.Cog):
 
             for channel in guild.text_channels:
                 webhooks=await channel.webhooks()
-                webhook = discord.utils.get(webhooks,name="CalicobotLog") # Return webhook object named CalicobotLog
-                if webhook: # If it can't find webhook, it will return None
+                webhook = discord.utils.get(webhooks,name="CalicobotLog")
+                # Return webhook object named CalicobotLog
+                # If it can't find webhook, it will return None
+                if webhook:
                     webhook.send(embed=embed)
                     return
 
@@ -173,8 +184,10 @@ class BotEvents(commands.Cog):
 
         for channel in guild.text_channels:
             webhooks=await channel.webhooks()
-            webhook = discord.utils.get(webhooks,name="CalicobotLog") # Return webhook object named CalicobotLog
-            if webhook: # If it can't find webhook, it will return None
+            webhook = discord.utils.get(webhooks,name="CalicobotLog")
+            # Return webhook object named CalicobotLog
+            # If it can't find webhook, it will return None
+            if webhook:
                 webhook.send(embed=embed)
                 return
 
@@ -193,8 +206,10 @@ class BotEvents(commands.Cog):
 
             for channel in guild.text_channels:
                 webhooks=await channel.webhooks()
-                webhook = discord.utils.get(webhooks,name="CalicobotLog") # Return webhook object named CalicobotLog
-                if webhook: # If it can't find webhook, it will return None
+                webhook = discord.utils.get(webhooks,name="CalicobotLog")
+                # Return webhook object named CalicobotLog
+                # If it can't find webhook, it will return None
+                if webhook:
                     webhook.send(embed=embed)
                     return
 
@@ -214,8 +229,10 @@ class BotEvents(commands.Cog):
 
             for channel in guild.text_channels:
                 webhooks=await channel.webhooks()
-                webhook = discord.utils.get(webhooks,name="CalicobotLog") # Return webhook object named CalicobotLog
-                if webhook: # If it can't find webhook, it will return None
+                webhook = discord.utils.get(webhooks,name="CalicobotLog")
+                # Return webhook object named CalicobotLog
+                # If it can't find webhook, it will return None
+                if webhook:
                     webhook.send(embed=embed)
                     return
 
@@ -235,8 +252,10 @@ class BotEvents(commands.Cog):
 
             for channel in guild.text_channels:
                 webhooks = await channel.webhooks()
-                webhook = discord.utils.get(webhooks,name="CalicobotLog") # Return webhook object named CalicobotLog
-                if webhook: # If it can't find webhook, it will return None
+                webhook = discord.utils.get(webhooks,name="CalicobotLog")
+                # Return webhook object named CalicobotLog
+                # If it can't find webhook, it will return None
+                if webhook:
                     webhook.send(embed=embed)
                     return
 
