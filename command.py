@@ -33,18 +33,15 @@ class Member(commands.GroupCog):
         A command to show server infomation
         """
         guild=interaction.guild
-        guild_online_member=0
-        for online_member in guild.members:
-            if online_member.status == discord.Status.online:
-                guild_online_member =+ 1
-
-        role_list=[]
-        for role in guild.roles:
-            role_list.append(role.mention)
-        rlb=" | ".join(role_list)
+        member_list = filter(
+            lambda member: member.status == discord.Status.online, 
+            guild.members
+        )
+        guild_online_member = len(member_list)
+        rlb = " | ".join([role.mention for role in guild.roles])
         embed=discord.Embed(title=f"{guild.name} - Info",color=discord.Color.blue(),
                             timestamp=datetime.datetime.now())
-        embed.add_field(name="作成日",value=f"<t:{int(time.mktime(guild.created_at.timetuple()))}:R>")
+        embed.add_field(name="作成日",value=f"<t:{int(guild.created_at.timestamp())}:R>")
         embed.add_field(name="サーバーID",value=f"{guild.id}")
         embed.add_field(name="所有者",value=guild.owner.mention)
         embed.add_field(name=f"メンバー数({guild.member_count})",
@@ -250,12 +247,14 @@ class Log(commands.GroupCog):
         """
         A command to delete exist log channel
         """
-        webhooks=await channel.webhooks()
-        for webhook in webhooks:
-            if webhook.name == "CalicobotLog":
-                await webhook.delete()
-                await interaction.response.send_message(
-                    f":white_check_mark:`{webhook.name}`を削除し\nログを取れなくました")
+        delete_webhooks = filter(
+            lambda webhook: webhook.name == "CalicobotLog", 
+            await channel.webhooks()
+        )
+        for webhook in delete_webhooks:
+            await webhook.delete()
+            await interaction.response.send_message(
+                f":white_check_mark:`{webhook.name}`を削除し\nログを取れなくました")
 
 async def setup(bot):
     """
