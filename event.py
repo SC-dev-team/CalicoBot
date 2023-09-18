@@ -46,7 +46,7 @@ class BotEvents(commands.Cog):
             # Return webhook object named CalicobotLog
             # If it can't find webhook, it will return None
             if webhook:
-                webhook.send(embed=embed)
+                await webhook.send(embed=embed)
                 return
 
     @commands.Cog.listener()
@@ -72,7 +72,7 @@ class BotEvents(commands.Cog):
                 # Return webhook object named CalicobotLog
                 # If it can't find webhook, it will return None
                 if webhook:
-                    webhook.send(embed=embed)
+                    await webhook.send(embed=embed)
                     return
 
     @commands.Cog.listener()
@@ -96,7 +96,7 @@ class BotEvents(commands.Cog):
             # Return webhook object named CalicobotLog
             # If it can't find webhook, it will return None
             if webhook:
-                webhook.send(embed=embed)
+                await webhook.send(embed=embed)
                 return
 
     @commands.Cog.listener()
@@ -119,7 +119,7 @@ class BotEvents(commands.Cog):
                 # Return webhook object named CalicobotLog
                 # If it can't find webhook, it will return None
                 if webhook:
-                    webhook.send(embed=embed)
+                    await webhook.send(embed=embed)
                     return
 
     @commands.Cog.listener()
@@ -142,7 +142,7 @@ class BotEvents(commands.Cog):
                 # Return webhook object named CalicobotLog
                 # If it can't find webhook, it will return None
                 if webhook:
-                    webhook.send(embed=embed)
+                    await webhook.send(embed=embed)
                     return
 
     @commands.Cog.listener()
@@ -164,7 +164,7 @@ class BotEvents(commands.Cog):
                 # Return webhook object named CalicobotLog
                 # If it can't find webhook, it will return None
                 if webhook:
-                    webhook.send(embed=embed)
+                    await webhook.send(embed=embed)
                     return
 
     @commands.Cog.listener()
@@ -188,7 +188,7 @@ class BotEvents(commands.Cog):
             # Return webhook object named CalicobotLog
             # If it can't find webhook, it will return None
             if webhook:
-                webhook.send(embed=embed)
+                await webhook.send(embed=embed)
                 return
 
     @commands.Cog.listener()
@@ -210,7 +210,7 @@ class BotEvents(commands.Cog):
                 # Return webhook object named CalicobotLog
                 # If it can't find webhook, it will return None
                 if webhook:
-                    webhook.send(embed=embed)
+                    await webhook.send(embed=embed)
                     return
 
     @commands.Cog.listener()
@@ -233,7 +233,7 @@ class BotEvents(commands.Cog):
                 # Return webhook object named CalicobotLog
                 # If it can't find webhook, it will return None
                 if webhook:
-                    webhook.send(embed=embed)
+                    await webhook.send(embed=embed)
                     return
 
     @commands.Cog.listener()
@@ -256,7 +256,7 @@ class BotEvents(commands.Cog):
                 # Return webhook object named CalicobotLog
                 # If it can't find webhook, it will return None
                 if webhook:
-                    webhook.send(embed=embed)
+                    await webhook.send(embed=embed)
                     return
 
     @commands.Cog.listener()
