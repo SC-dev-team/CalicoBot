@@ -9,16 +9,6 @@ from discord.ext import commands
 
 import embeds
 
-BOT = None
-def command_bot_init(main_bot):
-    """
-    A function to initialize command module
-    Args:
-        main_bot (discord.bot): set your bot instance to get channels
-    """
-    global BOT# pylint: disable=global-statement
-    BOT = main_bot
-
 user_karma_list=[]
 def command_init(main_list):
     """A function to initialize command module
@@ -248,7 +238,7 @@ class Log(commands.GroupCog):
         """
         A command to set up log channel
         """
-        bot_icon=await BOT.user.avatar.read()
+        bot_icon=await self.bot.user.avatar.read()
         webhook=await channel.create_webhook(
             name="CalicobotLog",avatar=bot_icon,reason="to get logs")
         await interaction.response.send_message(f":white_check_mark:`{webhook.name}`を作成しました!")
