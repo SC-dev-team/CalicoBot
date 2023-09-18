@@ -54,7 +54,6 @@ user_karma_list = load_user_karma()
 command.command_init(user_karma_list)
 
 event.event_init(bot)
-command.command_bot_init(bot)
 
 # on ready
 
