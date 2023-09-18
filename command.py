@@ -34,7 +34,7 @@ class Member(commands.GroupCog):
         """
         guild=interaction.guild
         member_list = filter(
-            lambda member: member.status == discord.Status.online, 
+            lambda member: member.status == discord.Status.online,
             guild.members
         )
         guild_online_member = len(member_list)
@@ -248,7 +248,7 @@ class Log(commands.GroupCog):
         A command to delete exist log channel
         """
         delete_webhooks = filter(
-            lambda webhook: webhook.name == "CalicobotLog", 
+            lambda webhook: webhook.name == "CalicobotLog",
             await channel.webhooks()
         )
         for webhook in delete_webhooks:
