@@ -40,15 +40,14 @@ class BotEvents(commands.Cog):
         embed.set_author(icon_url=before.author.avatar.url,name=before.author.global_name)
         embed.set_footer(text=before.guild.name)
 
-        bot_channel=BOT.get_all_channels()
-        for channel in bot_channel:
-            if channel.guild == before.guild:
-                if isinstance(channel, discord.TextChannel):
-                    webhooks=await channel.webhooks()
-                    for webhook in webhooks:
-                        if webhook.name == "CalicobotLog":
-                            await webhook.send(embed=embed)
-                            return
+        for channel in channel.guild.text_channels:
+            webhooks=await channel.webhooks()
+            webhook = discord.utils.get(webhooks,name="CalicobotLog")
+            # Return webhook object named CalicobotLog
+            # If it can't find webhook, it will return None
+            if webhook:
+                webhook.send(embed=embed)
+                return
 
     @commands.Cog.listener()
     async def on_member_remove(self, member:discord.Member):
@@ -67,14 +66,14 @@ class BotEvents(commands.Cog):
             embed.set_thumbnail(url=member.avatar.url)
             embed.set_footer(text=guild.name)
 
-            bot_channel=BOT.get_all_channels()
-            for channel in bot_channel:
-                if channel.guild == guild and isinstance(channel, discord.TextChannel):
-                    webhooks=await channel.webhooks()
-                    for webhook in webhooks:
-                        if webhook.name == "CalicobotLog":
-                            await webhook.send(embed=embed)
-                            return
+            for channel in channel.guild.text_channels:
+                webhooks=await channel.webhooks()
+                webhook = discord.utils.get(webhooks,name="CalicobotLog")
+                # Return webhook object named CalicobotLog
+                # If it can't find webhook, it will return None
+                if webhook:
+                    webhook.send(embed=embed)
+                    return
 
     @commands.Cog.listener()
     async def on_message_delete(self, message: discord.Message):
@@ -91,15 +90,14 @@ class BotEvents(commands.Cog):
         embed.set_author(icon_url=message.author.avatar.url,name=message.author.global_name)
         embed.set_footer(text=message.guild.name)
 
-        bot_channel=BOT.get_all_channels()
-        for channel in bot_channel:
-            if channel.guild == message.guild:
-                if isinstance(channel, discord.TextChannel):
-                    webhooks=await channel.webhooks()
-                    for webhook in webhooks:
-                        if webhook.name == "CalicobotLog":
-                            await webhook.send(embed=embed)
-                            return
+        for channel in channel.guild.text_channels:
+            webhooks = await channel.webhooks()
+            webhook = discord.utils.get(webhooks,name="CalicobotLog")
+            # Return webhook object named CalicobotLog
+            # If it can't find webhook, it will return None
+            if webhook:
+                webhook.send(embed=embed)
+                return
 
     @commands.Cog.listener()
     async def on_guild_channel_create(self, channel: discord.abc.GuildChannel):
@@ -115,15 +113,14 @@ class BotEvents(commands.Cog):
             embed.set_author(icon_url=action.user.avatar.url,name=action.user.name)
             embed.set_footer(text=channel.guild.name)
 
-            bot_channel=BOT.get_all_channels()
-            for eventchannel in bot_channel:
-                if eventchannel.guild == guild:
-                    if isinstance(eventchannel, discord.TextChannel):
-                        webhooks=await eventchannel.webhooks()
-                        for webhook in webhooks:
-                            if webhook.name == "CalicobotLog":
-                                await webhook.send(embed=embed)
-                                return
+            for eventchannel in guild.text_channels:
+                webhooks=await eventchannel.webhooks()
+                webhook = discord.utils.get(webhooks,name="CalicobotLog")
+                # Return webhook object named CalicobotLog
+                # If it can't find webhook, it will return None
+                if webhook:
+                    webhook.send(embed=embed)
+                    return
 
     @commands.Cog.listener()
     async def on_guild_channel_delete(self, channel: discord.abc.GuildChannel):
@@ -139,15 +136,14 @@ class BotEvents(commands.Cog):
             embed.set_author(icon_url=action.user.avatar.url,name=action.user.name)
             embed.set_footer(text=channel.guild.name)
 
-            bot_channel=BOT.get_all_channels()
-            for eventchannel in bot_channel:
-                if eventchannel.guild == guild:
-                    if isinstance(eventchannel, discord.TextChannel):
-                        webhooks=await eventchannel.webhooks()
-                        for webhook in webhooks:
-                            if webhook.name == "CalicobotLog":
-                                await webhook.send(embed=embed)
-                                return
+            for eventchannel in guild.text_channels:
+                webhooks=await eventchannel.webhooks()
+                webhook = discord.utils.get(webhooks,name="CalicobotLog")
+                # Return webhook object named CalicobotLog
+                # If it can't find webhook, it will return None
+                if webhook:
+                    webhook.send(embed=embed)
+                    return
 
     @commands.Cog.listener()
     async def on_member_ban(self, guild: discord.Guild, user: discord.User):
@@ -162,15 +158,14 @@ class BotEvents(commands.Cog):
             embed.set_author(icon_url=action.user.avatar.url,name=action.user)
             embed.set_footer(text=guild.name)
 
-            bot_channel=BOT.get_all_channels()
-            for channel in bot_channel:
-                if channel.guild == guild:
-                    if isinstance(channel, discord.TextChannel):
-                        webhooks=await channel.webhooks()
-                        for webhook in webhooks:
-                            if webhook.name == "CalicobotLog":
-                                await webhook.send(embed=embed)
-                                return
+            for channel in guild.text_channels:
+                webhooks=await channel.webhooks()
+                webhook = discord.utils.get(webhooks,name="CalicobotLog")
+                # Return webhook object named CalicobotLog
+                # If it can't find webhook, it will return None
+                if webhook:
+                    webhook.send(embed=embed)
+                    return
 
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member):
@@ -187,15 +182,14 @@ class BotEvents(commands.Cog):
         embed.set_thumbnail(url=member.avatar.url)
         embed.set_footer(text=member.guild.name)
 
-        bot_channel=BOT.get_all_channels()
-        for channel in bot_channel:
-            if channel.guild == guild:
-                if isinstance(channel, discord.TextChannel):
-                    webhooks=await channel.webhooks()
-                    for webhook in webhooks:
-                        if webhook.name == "CalicobotLog":
-                            await webhook.send(embed=embed)
-                            return
+        for channel in guild.text_channels:
+            webhooks=await channel.webhooks()
+            webhook = discord.utils.get(webhooks,name="CalicobotLog")
+            # Return webhook object named CalicobotLog
+            # If it can't find webhook, it will return None
+            if webhook:
+                webhook.send(embed=embed)
+                return
 
     @commands.Cog.listener()
     async def on_member_unban(self, guild: discord.Guild, user: discord.User):
@@ -210,15 +204,14 @@ class BotEvents(commands.Cog):
             embed.set_author(icon_url=action.user.avatar.url,name=action.user)
             embed.set_footer(text=guild.name)
 
-            bot_channel=BOT.get_all_channels()
-            for channel in bot_channel:
-                if channel.guild == guild:
-                    if isinstance(channel, discord.TextChannel):
-                        webhooks=await channel.webhooks()
-                        for webhook in webhooks:
-                            if webhook.name == "CalicobotLog":
-                                await webhook.send(embed=embed)
-                                return
+            for channel in guild.text_channels:
+                webhooks=await channel.webhooks()
+                webhook = discord.utils.get(webhooks,name="CalicobotLog")
+                # Return webhook object named CalicobotLog
+                # If it can't find webhook, it will return None
+                if webhook:
+                    webhook.send(embed=embed)
+                    return
 
     @commands.Cog.listener()
     async def on_guild_role_create(self, role: discord.Role):
@@ -234,15 +227,14 @@ class BotEvents(commands.Cog):
             embed.set_author(icon_url=action.user.avatar.url,name=action.user.global_name)
             embed.set_footer(text=guild.name)
 
-            bot_channel=BOT.get_all_channels()
-            for channel in bot_channel:
-                if channel.guild == guild:
-                    if isinstance(channel, discord.TextChannel):
-                        webhooks=await channel.webhooks()
-                        for webhook in webhooks:
-                            if webhook.name == "CalicobotLog":
-                                await webhook.send(embed=embed)
-                                return
+            for channel in guild.text_channels:
+                webhooks=await channel.webhooks()
+                webhook = discord.utils.get(webhooks,name="CalicobotLog")
+                # Return webhook object named CalicobotLog
+                # If it can't find webhook, it will return None
+                if webhook:
+                    webhook.send(embed=embed)
+                    return
 
     @commands.Cog.listener()
     async def on_guild_role_delete(self, role: discord.Role):
@@ -258,21 +250,20 @@ class BotEvents(commands.Cog):
             embed.set_author(icon_url=action.user.avatar.url,name=action.user.global_name)
             embed.set_footer(text=guild.name)
 
-            bot_channel=BOT.get_all_channels()
-            for channel in bot_channel:
-                if channel.guild == guild:
-                    if isinstance(channel, discord.TextChannel):
-                        webhooks=await channel.webhooks()
-                        for webhook in webhooks:
-                            if webhook.name == "CalicobotLog":
-                                await webhook.send(embed=embed)
-                                return
+            for channel in guild.text_channels:
+                webhooks = await channel.webhooks()
+                webhook = discord.utils.get(webhooks,name="CalicobotLog")
+                # Return webhook object named CalicobotLog
+                # If it can't find webhook, it will return None
+                if webhook:
+                    webhook.send(embed=embed)
+                    return
 
     @commands.Cog.listener()
     async def on_guild_join(self):
         """Generate presence when status changed
         """
-        await BOT.change_presence(status=discord.Status.online,
+        await self.bot.change_presence(status=discord.Status.online,
                                   activity=discord.Game(
                                       name=f"mod!help | {len(BOT.guilds)} server"))
 
@@ -281,7 +272,7 @@ class BotEvents(commands.Cog):
     async def on_guild_remove(self):
         """Generate presence when status changed
         """
-        await BOT.change_presence(status=discord.Status.online,
+        await self.bot.change_presence(status=discord.Status.online,
                                   activity=discord.Game(
                                       name=f"mod!help | {len(BOT.guilds)} server"))
 
